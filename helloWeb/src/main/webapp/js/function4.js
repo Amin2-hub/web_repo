@@ -5,8 +5,9 @@ document.getElementById('saveBtn').onclick = function (e) {
     let height = document.getElementById('height').value;
 
     let str = "";
-    if (name == "" || age == "" || height == "") {
+    if (!name || !age || !height) {
         window.alert("값을 입력하세요");
+        return; //함수종료
     } else {
         const mem = new Member(name, age, height);
         str += makeTr(mem);
