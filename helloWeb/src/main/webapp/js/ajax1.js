@@ -45,7 +45,16 @@ function loadJson(){
 	console.log(xhtp.responseText);
 	let result = JSON.parse(xhtp.responseText);
 	console.log(result);
+	let titles = ["회원번호", "비번", "이름", "연락처"];
+	let dataAry = [];
+	result.forEach(member => {
+		dataAry.push({mid: member.mid,  pass: member.pass,  name: member.name,  phone: member.phone})
+	})
+	result = table.makeTable(titles, dataAry);
+	document.getElementById('show').innerHTML = result;
 }
+
+
 
 function loadXML(){
     //console.log(xhtp);
@@ -75,5 +84,5 @@ function loadXML(){
     document.getElementById('show').innerHTML += result;
 	// document.getElementById('list').innerHTML += addResult;
 	document.getElementById('list').innerHTML += tr;
-    
-}
+}//end of onload
+

@@ -51,6 +51,52 @@ public class MemberServiceImpl implements MemberService{
 		}
 		return member;
 	}
+
+	@Override
+	public boolean addMember(MemberVO vo) {
+		String sql = "insert into member values(?, ?, ?, ?)";
+		conn = dao.getConnection();
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, vo.getMid());
+			ps.setString(2, vo.getPass());
+			ps.setString(3, vo.getName());
+			ps.setString(4, vo.getPhone());
+			
+			int r = ps.executeUpdate(); //반환값은 데이터처리 건수.
+			if(r == 1) {
+				return true;
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return false;
+	}
+	
+	@Override
+	public boolean modifyMember(MemberVO vo) {
+		String sql = "update member set pass=?, name=?, phone=? where mid=?";
+		conn = dao.getConnection();
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, vo.getPass());
+			ps.setString(2, vo.getName());
+			ps.setString(3, vo.getPhone());
+			ps.setString(4, vo.getMid());
+			
+			int r = ps.executeUpdate(); //반환값은 데이터처리 건수.
+			if(r == 1) {
+				return true;
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 		
 	
 

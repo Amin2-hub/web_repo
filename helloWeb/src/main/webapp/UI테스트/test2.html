@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>test2.html</title>
+
+</head>
+<body>
+	<div id="test2"></div>
+	<script>
+		const novemberCal = {
+			makeHead(){
+			   	const days = ['일', '월', '화', '수', '목', '금', '토'];
+				let head = '';
+	   			head += '<thead><tr>';
+	    		for (let prop in days) {
+	        		head += '<th>' + days[prop] + '</th>';
+	    		}
+	    		head += '</tr></thead>';
+	     		return head;
+	 		},
+			
+			makeBody(){
+				let tbody = '<tbody><tr>';
+				for(let i = 1; i<=33; i++){
+					if(i<=3){
+						tbody += '<td></td>'
+					}else{
+						tbody += '<td>' + (i-3) + '</td>';	
+					}
+					if(i % 7 == 0){
+						tbody += '</tr><tr>';
+					}
+				}
+				tbody += '</tr></tbody>';
+				return tbody;
+			},
+			makeCal(){
+				let html = '<table border = "1">';
+				html += this.makeHead();
+				html += this.makeBody();
+				html += '</table>';
+				return html;
+			},
+			
+			show(){
+				document.getElementById('test2').innerHTML += this.makeCal();
+			}
+		}
+		
+		novemberCal.show();
+		
+	</script>
+</body>
+</html>
