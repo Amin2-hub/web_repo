@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>fetch.html</title>
+	<script type = "module" src="fetch1.js"></script>
+</head>
+
+<body>
+	<div id ="show"></div>
+	<script>
+		//promise 객체(fullfield(성공), pending(처리중), rejected(처리안됨))
+		const promise = new Promise(function (resolve) {
+			setTimeout(function () {
+				console.log('실행.');
+				resolve('Success');
+			}, 500)
+		});
+
+		promise //정상적으로 실행되면
+			.then((resolve) => { //첫번쨰 매개값을 이용해 then함수 실행
+				console.log('then: ', resolve);
+				return 'OK'; //promise타입으로 자동변환되서 반환
+			})
+			.then((result) => {
+				console.log('2then: ', result);
+			})
+			.catch((err) => {
+				console.log('error: ', err);
+			})
+	</script>
+
+</body>
+
+</html>

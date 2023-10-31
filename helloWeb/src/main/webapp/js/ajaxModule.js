@@ -9,7 +9,7 @@ const table = {
 		headTag += "</tr></thead>";
 		return headTag;
 	},
-
+	
 	makeBody(dataAry = [{mid, pass, name, phone}]){
 		let bodyTag = "<tbody id='list'>";
 		dataAry.forEach(item => {
