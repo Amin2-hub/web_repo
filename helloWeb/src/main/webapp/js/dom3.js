@@ -58,8 +58,11 @@ function genTable(rawData = [], page = 1) {  //초기페이지 : 1페이지
     // 첫번째, 마지막페이지 => 계산.
     let totalCnt = rawData.length;
     let lastPage = Math.ceil(totalCnt / 5);
-    let endPage = Math.ceil(page / 10) * 10;
-    let beginPage = endPage - 9;
+    // let endPage = Math.ceil(page / 10) * 10;
+    // let beginPage = endPage - 9;
+    const pageShow = 5;
+    let beginPage = Math.max(1, page - Math.floor(pageShow / 2));
+    let endPage = Math.min(lastPage, beginPage + pageShow - 1);
     let prevPage, nextPage = false;
     if(beginPage > 1){
         prevPage = true;
