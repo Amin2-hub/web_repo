@@ -2,7 +2,9 @@
  * 
  */
 export default {
-    makeHead:function(titles=['아이디','센터명']){
+    hiddenFields : ['lat', 'lng'],
+
+    makeHead:function(titles=[]){
         //thead>tr>th*n
         let thead = document.createElement('thead');
         let tr = document.createElement('tr');
@@ -23,7 +25,13 @@ export default {
     },
     makeTr:function(center={}){
         let tr = document.createElement('tr');
+        tr.setAttribute('data-lat', center.lat);
+        tr.setAttribute('data-lng', center.lng);
+
         for(let prop in center){
+            if(this.hiddenFields.indexOf(prop) > -1){
+                continue;
+            }
             const td = document.createElement('td');
             td.innerHTML = center[prop];
             tr.append(td);
