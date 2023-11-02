@@ -37,7 +37,7 @@ public class StudentDAO {
 				+ "student_pw, student_dept, student_birthday) "
 				+ "values (?, ?, ?, ?, ?)";
 		conn = ds.getConnection();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		System.out.println(sdf.format(vo.getStudentBirthday()));
 		try {
 			psmt = conn.prepareStatement(sql);
