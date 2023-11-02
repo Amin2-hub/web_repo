@@ -20,12 +20,12 @@
 		</tr>
 		<tr>
 			<th>비밀번호</th>
-			<td><input type="password" name="pass" id="pass" value="1234"></td>
+			<td><input type="password" name="spass" id="pass" value="1234"></td>
 		</tr>
 		<tr>
 			<th>전공</th>
 			<td>
-				<select name="dept">
+				<select name="sdept">
 					<option disabled selected>선택하세요</option>
 					<option value="경영학과">경영학과</option>
 					<option value="국문학과">국문학과</option>
@@ -38,7 +38,7 @@
 		</tr>
 		<tr>
 			<th>생년월일</th>
-			<td><input type="date" id="birth" name="birth" value="1995-05-06"></td>
+			<td><input type="date" id="birth" name="sbirth" value="1995-05-06"></td>
 		</tr>
 
 		<tr>
@@ -73,6 +73,7 @@
 				<h2>Modal Header</h2>
 			</div>
 			<div class="modal-body">
+				<input type="hidden" name="id">
 				<p>비밀번호<input type="text" name="pass"></p>
 				<p>이름<input type="text" name="name"></p>
 				<p>생년월일<input type="date" name="birth"></p>
