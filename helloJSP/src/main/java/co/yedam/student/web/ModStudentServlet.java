@@ -37,7 +37,7 @@ public class ModStudentServlet extends HttpServlet {
 		vo.setStudentId(id);
 		vo.setStudentName(name);
 		vo.setStudentPw(pass);
-
+		System.out.println(vo);
 		try {
 			vo.setStudentBirthday(sdf.parse(birth));
 
@@ -57,10 +57,10 @@ public class ModStudentServlet extends HttpServlet {
 		}
 
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		String json = gson.toJson(map);
 
 		resp.setCharacterEncoding("utf-8");
 		resp.setContentType("text/json; charset=UTF-8");
-		String json = gson.toJson(map);
 		resp.getWriter().print(json);
 
 	}

@@ -1,18 +1,49 @@
 /**
  * js/student.js
  */
-
+import svc from './service.js';
 //페이지 로딩되면 바로 실행.
-fetch('../studentList.do')
-	.then(resolve => resolve.json())
-	.then(result => {
+//비동기 방식코드->순차적 가독성 높이기 async, await(async안에서 써야됨)
+//aysnc함수(
+//	await처리 (promise객체)
+//	await처리 (promise객체)
+//	await처리 (promise객체)
+//)
+svc.studentList(
+	//성공후 실행함수
+	result => {
 		console.log(result);
 		let tbody = document.querySelector('#list');
 		result.forEach(student => {
 			tbody.append(makeTr(student));
 		})
-	})
-	.catch(err => console.log('error=> ', err));
+		//실패후 실행함수
+	}, err => console.log('error=> ', err));
+
+// async function studentList() {
+// 	let req = await fetch('../studentList.do');
+// 	let json = await req.json(); //{"retCode":"OK"} -> {"retCode":"ON"}
+// 	let tbody = document.querySelector('#list');
+// 	try {
+// 		json.forEach(student => {
+// 			tbody.append(makeTr(student));
+// 		})
+// 	} catch (err) {
+// 		console.log('error', err);
+// 	}
+
+// }
+
+// fetch('../studentList.do')
+// 	.then(resolve => resolve.json())
+// 	.then(result => {
+// 		console.log(result);
+// 		let tbody = document.querySelector('#list');
+// 		result.forEach(student => {
+// 			tbody.append(makeTr(student));
+// 		})
+// 	})
+// 	.catch(err => console.log('error=> ', err));
 
 //등록버튼 이벤트
 document.querySelector('#addBtn').addEventListener('click', addCallback);
@@ -36,12 +67,14 @@ function addCallback(e) {
 	//get방식 : default임 url주소에 다 보여짐 담을수있는 값에 제한이 있음
 	//post방식: 파라미터표현x 값의제한x, 다만 content-type 지정해줘야됨
 	// fetch('../addStudent.do?' + param)  
-	fetch('../addStudent.do?', {
-		method: 'post',
-		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-		body: param
-	}).then(resolve => resolve.json())
-		.then(result => {
+
+	svc.addStudent(
+		{
+			method: 'post',
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			body: param
+		},
+		result => {
 			if (result.retCode == 'OK') {
 				alert('성공');
 				let tr = makeTr({ studentId: sid, studentName: sname, studentBirthday: birth });
@@ -50,9 +83,27 @@ function addCallback(e) {
 				alert('실패');
 
 			}
-		})
-		.catch(err => console.log('error=> ', err));
+		}, err => console.log('error=> ', err)
+	)
+
+	// fetch('../addStudent.do?', {
+	// 	method: 'post',
+	// 	headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+	// 	body: param
+	// }).then(resolve => resolve.json())
+	// 	.then(result => {
+	// 		if (result.retCode == 'OK') {
+	// 			alert('성공');
+	// 			let tr = makeTr({ studentId: sid, studentName: sname, studentBirthday: birth });
+	// 			document.querySelector('#list').append(tr);
+	// 		} else {
+	// 			alert('실패');
+
+	// 		}
+	// 	})
+	// 	.catch(err => console.log('error=> ', err));
 }//end addCallback
+
 
 function modifyCallback(e) {
 	let sid = document.querySelector('.modal-body input[name=id]').value;
@@ -62,39 +113,72 @@ function modifyCallback(e) {
 	let birth = document.querySelector('.modal-body input[name=birth]').value;
 	let param = `id=${sid}&name=${sname}&password=${pass}&birth=${birth}`;
 	console.log(param);
-	fetch('../editStudent.do?', {
+	
+	svc.editStudent(
+	{
 		method: 'post',
-		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 		body: param
-	})
-		.then(resolve => resolve.json())
-		.then(result => {
-			console.log('결과' + result);
+	},
+	result => {
+			console.log('결과' + result.retCode);
 
-		//	if (result.retCode == 'OK') {
-		//		alert('수정 완료');
-		//		//result.vo.studentId;
-		//		let targetTr = document.querySelector('tr[data-sid='+result.vo.studentId+']');
-		//		let newTr = makeTr(result.vo);
-		//		let parentElem = document.querySelector('#list');
-		//		parentElem.replaceChild(newTr, targetTr);
-		//		document.getElementById("myModal").style.display = 'none';
-		
-			if(result.retCode == 'OK'){
+			//	if (result.retCode == 'OK') {
+			//		alert('수정 완료');
+			//		//result.vo.studentId;
+			//		let targetTr = document.querySelector('tr[data-sid='+result.vo.studentId+']');
+			//		let newTr = makeTr(result.vo);
+			//		let parentElem = document.querySelector('#list');
+			//		parentElem.replaceChild(newTr, targetTr);
+			//		document.getElementById("myModal").style.display = 'none';
+			//		}
+			if (result.retCode == 'OK') {
 				let trTags = document.getElementById('list').querySelectorAll('tr');
 				trTags.forEach(obj => {
-					if(obj.chileNodes[0].innerText ==id){
+					if (obj.chileNodes[0].innerText == sid) {
 						obj.chileNodes[1].innerHTML == name;
 						obj.chileNodes[2].innerHTML == birth;
 					}
 				})
-				
-			
 			} else {
 				alert('수정 실패');
 			}
-		})
-		.catch(err => console.log('error: ', err));
+		},err => console.log('error: ', err)
+		)
+		
+	// fetch('../editStudent.do?', {
+	// 	method: 'post',
+	// 	headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+	// 	body: param
+	// })
+	// 	.then(resolve => resolve.json())
+	// 	.then(result => {
+	// 		console.log('결과' + result.retCode);
+
+	// 		//	if (result.retCode == 'OK') {
+	// 		//		alert('수정 완료');
+	// 		//		//result.vo.studentId;
+	// 		//		let targetTr = document.querySelector('tr[data-sid='+result.vo.studentId+']');
+	// 		//		let newTr = makeTr(result.vo);
+	// 		//		let parentElem = document.querySelector('#list');
+	// 		//		parentElem.replaceChild(newTr, targetTr);
+	// 		//		document.getElementById("myModal").style.display = 'none';
+
+	// 		if (result.retCode == 'OK') {
+	// 			let trTags = document.getElementById('list').querySelectorAll('tr');
+	// 			trTags.forEach(obj => {
+	// 				if (obj.chileNodes[0].innerText == sid) {
+	// 					obj.chileNodes[1].innerHTML == name;
+	// 					obj.chileNodes[2].innerHTML == birth;
+	// 				}
+	// 			})
+
+
+	// 		} else {
+	// 			alert('수정 실패');
+	// 		}
+	// 	})
+	// 	.catch(err => console.log('error: ', err));
 }//end modifyCallback
 
 //tr생성함수
@@ -115,9 +199,9 @@ function makeTr(obj) {
 	btn.innerHTML = '삭제';
 	btn.addEventListener('click', function(e) {
 		//ajax호출. -> 서블릿실행.
-		fetch('../delStudent.do?sid=' + obj.studentId)
-			.then(resolve => resolve.json())
-			.then(result => {
+		svc.removeStudent(
+			obj.studentId,
+			result => {
 				console.log(result);
 				if (result.retCode == 'OK') {
 					alert('삭제성공');
@@ -126,8 +210,23 @@ function makeTr(obj) {
 					alert('삭제실패');
 
 				}
-			})
-			.catch(err => console.log('error: ', err));
+			}, err => console.log('error: ', err)
+		);
+		
+		
+		// fetch('../delStudent.do?sid=' + obj.studentId)
+		// 	.then(resolve => resolve.json())
+		// 	.then(result => {
+		// 		console.log(result);
+		// 		if (result.retCode == 'OK') {
+		// 			alert('삭제성공');
+		// 			tr.remove();
+		// 		} else {
+		// 			alert('삭제실패');
+
+		// 		}
+		// 	})
+		// 	.catch(err => console.log('error: ', err));
 	})
 	td.append(btn);
 	tr.append(td);
@@ -140,30 +239,48 @@ function showModal(e) {
 	let id = this.children[0].innerHTML;
 	//let id = this.dataset.sid; //'data-sid' : std1
 	console.log(id);
-	
+
 	var modal = document.getElementById("myModal");
 	modal.style.display = "block";
-
-	fetch('../getStudent.do?', {
-		method: 'post',
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded'
-		},
-		body: 'id='+id
-	})
-		.then(resolve => resolve.json())
-		.then(result => {
+	
+	svc.getStudent(
+		id,
+		result => {
 			//console.log(result.id);
 			//console.log(result.studentId);
 			//let data = { id: result.studentId, name: result.studentName, pass: result.studentPw, dept: result.studentDept, birth: result.studentBirthday }
-			document.querySelector('h2').innerHTML = result.studentId;
+			document.querySelector('h2').innerHTML = result.studentName;
 			document.querySelector('input[name=pass]').value = result.studentPw;
+			document.querySelector('input[name=id]').value = result.studentId;
 			document.querySelector('input[name=name]').value = result.studentName;
 			document.querySelector('input[name=birth]').value = result.studentBirthday;
 			//console.log(data.id, data.pass, data.name, data.birth);
 
-		})
-		.catch(err => console.log('error: ', err));
+		},err => console.log('error: ', err)
+
+	)
+
+	// fetch('../getStudent.do?', {
+	// 	method: 'post',
+	// 	headers: {
+	// 		'Content-Type': 'application/x-www-form-urlencoded'
+	// 	},
+	// 	body: 'id=' + id
+	// })
+	// 	.then(resolve => resolve.json())
+	// 	.then(result => {
+	// 		//console.log(result.id);
+	// 		//console.log(result.studentId);
+	// 		//let data = { id: result.studentId, name: result.studentName, pass: result.studentPw, dept: result.studentDept, birth: result.studentBirthday }
+	// 		document.querySelector('h2').innerHTML = result.studentName;
+	// 		document.querySelector('input[name=pass]').value = result.studentPw;
+	// 		document.querySelector('input[name=id]').value = result.studentId;
+	// 		document.querySelector('input[name=name]').value = result.studentName;
+	// 		document.querySelector('input[name=birth]').value = result.studentBirthday;
+	// 		//console.log(data.id, data.pass, data.name, data.birth);
+
+	// 	})
+	// 	.catch(err => console.log('error: ', err));
 
 	//let data = { id: "std1", name: "홍길동", pass: "1234", dept: "컴퓨터공학과", birth: "2023-11-02" }
 	//document.querySelector('h2').innerHTML = data.name;

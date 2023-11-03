@@ -21,7 +21,7 @@ public class AddStudentServlet extends HttpServlet{
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//한글처리  get방식일떄는 상관없지만 post방식일떄는 해줘야됨!
 		resp.setCharacterEncoding("utf-8");
-//		req.setCharacterEncoding("utf-8");
+		req.setCharacterEncoding("utf-8");
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
