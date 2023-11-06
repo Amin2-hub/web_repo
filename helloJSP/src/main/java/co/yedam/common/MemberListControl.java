@@ -16,8 +16,9 @@ public class MemberListControl implements Command {
 		// TODO Auto-generated method stub
 		BoardService svc = new BoardServiceImpl();
 		List<MemberVO> list = svc.memberList();
+		System.out.println(list);
 		
-		req.setAttribute("memberlist", list);
+		req.setAttribute("list", list);
 		
 		
 		try {

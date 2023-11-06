@@ -9,7 +9,7 @@
 
 <h3>유저 목록</h3>
 <%
-	List<MemberVO> list = (List<MemberVO>) request.getAttribute("memberlist"); 
+	List <MemberVO> list = (List<MemberVO>) request.getAttribute("list");
 %>
 <table class="table">
 	<thead>

@@ -42,6 +42,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public List<MemberVO> memberList() {
-		return dao.userList();
+		List<MemberVO> list = dao.userList();
+		return list;
 	}
 }

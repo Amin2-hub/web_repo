@@ -9,7 +9,7 @@
 	System.out.println("boardNo는 " + vo.getBoardNo());
 	%>
 	<h3>상세화면(조회화면)</h3>
-	<form action="modifyForm.do" name="myForm" enctype="multipart/form-data">
+	<form action="modifyForm.do" name="myForm" >
 	<input type="hidden" name="bno" value="<%=vo.getBoardNo() %>">
 	<table class="table">
 		<tr>
