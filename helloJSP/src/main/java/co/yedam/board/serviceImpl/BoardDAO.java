@@ -90,14 +90,15 @@ public class BoardDAO {
 	}// end select
 
 	public int insert(BoardVO vo) {
-		sql = "insert into board1(board_no, title, content, writer) "
-				+ "values(seq_board.nextval, ?, ?, ?)";
+		sql = "insert into board1(board_no, title, content, writer, image) "
+				+ "values(seq_board.nextval, ?, ?, ?, ?)";
 		conn = ds.getConnection();
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, vo.getTitle());
 			psmt.setString(2, vo.getContent());
 			psmt.setString(3, vo.getWriter());
+			psmt.setString(4, vo.getImage());
 			int r = psmt.executeUpdate();
 			return r;
 		} catch (SQLException e) {
@@ -109,7 +110,7 @@ public class BoardDAO {
 	}// end insert
 
 	public int update(BoardVO vo) {
-		sql = "update board1 set title=?, content=? "
+		sql = "update board1 set title=?, content=?, writer=?,"
 				+ "image=nvl(?, image), last_update=sysdate where board_no=?";
 		conn = ds.getConnection();
 //		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -118,8 +119,9 @@ public class BoardDAO {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, vo.getTitle());
 			psmt.setString(2, vo.getContent());
-			psmt.setString(3, vo.getImage());
-			psmt.setInt(4, vo.getBoardNo());
+			psmt.setString(3, vo.getWriter());
+			psmt.setString(4, vo.getImage());
+			psmt.setInt(5, vo.getBoardNo());
 			r = psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -163,4 +165,27 @@ public class BoardDAO {
 		}
 		return 0;
 	}
+	
+	//아이디 비번 => 조회값 boolean
+	public boolean getUser(String id, String pw) {
+		sql = "select * from member where mid=? and pass=?";
+		conn = ds.getConnection();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			psmt.setString(2, pw);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return false;
+	}
+	
+	
 }// end DAO

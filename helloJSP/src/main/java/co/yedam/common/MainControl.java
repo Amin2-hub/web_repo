@@ -1,21 +1,18 @@
-package co.yedam.board.web;
+package co.yedam.common;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import co.yedam.common.Command;
-
-public class BoardFormControl implements Command {
+public class MainControl implements Command {
 
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
-		HttpSession session = req.getSession();
-		
-		
 		try {
-			req.getRequestDispatcher("WEB-INF/board/boardForm.jsp").forward(req, resp);
+			req.getRequestDispatcher("WEB-INF/main/main.jsp").forward(req, resp);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

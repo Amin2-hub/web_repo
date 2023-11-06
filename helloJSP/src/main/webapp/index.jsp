@@ -11,7 +11,7 @@
 <body>
     
     <%
-        response.sendRedirect("boardList.do");
+        response.sendRedirect("main.do");
     %>
 </body>
 
