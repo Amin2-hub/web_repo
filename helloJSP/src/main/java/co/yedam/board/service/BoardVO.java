@@ -13,4 +13,5 @@ public class BoardVO {
 	private int viewCnt;
 	private String image;
 	private Date lastUpdate;
+	
 }

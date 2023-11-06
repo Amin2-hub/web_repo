@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import co.yedam.board.service.BoardVO;
+import co.yedam.board.service.MemberVO;
 import co.yedam.common.DataSource;
 
 public class BoardDAO {
@@ -167,8 +167,9 @@ public class BoardDAO {
 	}
 	
 	//아이디 비번 => 조회값 boolean
-	public boolean getUser(String id, String pw) {
+	public MemberVO getUser(String id, String pw) {
 		sql = "select * from member where mid=? and pass=?";
+		MemberVO vo = new MemberVO();
 		conn = ds.getConnection();
 		try {
 			psmt = conn.prepareStatement(sql);
@@ -177,15 +178,46 @@ public class BoardDAO {
 			rs = psmt.executeQuery();
 			
 			if(rs.next()) {
-				return true;
+				vo.setMid("mid");
+				vo.setPass("pass");
+				vo.setName("name");
+				vo.setPhone("phone");
+				vo.setResponsibility("responsibility");
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close();
 		}
-		return false;
+		return vo;
 	}
+	
+	//관리자 체크
+	public List<MemberVO> userList() {
+		sql = "select * from member ";
+		conn = ds.getConnection();
+		List<MemberVO> list = new ArrayList<>();
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			while (rs.next()) {
+				MemberVO vo = new MemberVO();
+				vo.setMid(rs.getString("mid"));
+				vo.setPass(rs.getString("pass"));
+				vo.setName(rs.getString("name"));
+				vo.setPhone(rs.getString("phone"));
+				vo.setResponsibility(rs.getString("responsibility"));
+				list.add(vo);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return list;
+	}// end list
 	
 	
 }// end DAO

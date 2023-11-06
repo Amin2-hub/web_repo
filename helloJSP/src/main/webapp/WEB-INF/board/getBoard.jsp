@@ -29,7 +29,11 @@
 		</tr>
 		<tr>
 		<th>이미지</th>
-		<td colspan="3"><img width="80px" src="images/<%=vo.getImage()%>"></td>
+		<td colspan="3">
+		<% if(vo.getImage() != null) { %>
+		<img width="80px" src="images/<%=vo.getImage()%>">
+		<% }  %>
+		</td>
 		</tr>
 		
 		<tr>
@@ -40,14 +44,18 @@
 		</tr>
 		<tr>
 				<td colspan="2" align="center">
-				<input type="submit" class="btn btn-primary" value="수정"> 
-				<input type="button" class="btn btn-warning" value="삭제">
+				<% if(logId != null && logId.equals(vo.getWriter())) { %>
+					<input type="submit" class="btn btn-primary" value="수정"> 
+					<input type="button" class="btn btn-warning" value="삭제">
+				<% } else { %>
+					<input type="submit" disabled class="btn btn-primary" value="수정"> 
+					<input type="button" disabled class="btn btn-warning" value="삭제">
+				<% } %>
 				</td>
 			</tr>
 
 	</table>
 	</form>
-	<p><a href="boardList.do">목록으로</a></p>
 	<script>
 		document.querySelector('input[type=button]').addEventListener('click', function(e){
 			document.forms.myForm.action = 'removeForm.do';

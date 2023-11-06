@@ -16,25 +16,29 @@
     <body>
     <%
     	String logId = (String) session.getAttribute("logId");
+    	String responsibility = (String) session.getAttribute("responsibility");
     %>
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
             <div class="border-end bg-white" id="sidebar-wrapper">
-                <div class="sidebar-heading border-bottom bg-light">첫페이지</div>
+            	 <% if(logId == null){ %>
+                <div class="sidebar-heading border-bottom bg-light">Guest입니다.</div>
+                 <% } else { %>
+                <div class="sidebar-heading border-bottom bg-light">(<%=logId %>)님 환영합니다</div>
+                 <% } %>
                 <div class="list-group list-group-flush">
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="boardList.do">게시글 목록</a>
-                    <%
-                    if(logId == null){
-                    %>
+                    <% if(logId == null){ %>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="loginForm.do">로그인화면</a>
-                    <%
-                    } else {
-                    %>
+                    <% } else { %>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="logout.do">로그아웃</a>
-                    <%
-                    }
-                    %>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Overview</a>
+                    <% } %>
+                    <!-- 관리자 권한일경우 -->
+                    <%=responsibility%>
+                    <% if (responsibility != null && responsibility.equals("Admin")) { %>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="memberList.do">회원관리</a>
+                    <% } %>
+                    
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Events</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Status</a>

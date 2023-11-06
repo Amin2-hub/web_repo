@@ -17,12 +17,16 @@ public class LoginControl implements Command {
 		String id = req.getParameter("id");
 		String pw = req.getParameter("pass");
 		
-		//Session : 서버-클라이언트   웹브라우저에서 로그아웃하거나 종료하기전엔 데이터가 계속 저장되있음
-		HttpSession session = req.getSession();
-		session.setAttribute("logId", id);
 
 		BoardService svc = new BoardServiceImpl();
+		
 		if(svc.loginCheck(id, pw)) {
+			
+			//Session : 서버-클라이언트   웹브라우저에서 로그아웃하거나 종료하기전엔 데이터가 계속 저장되있음
+			HttpSession session = req.getSession();
+			session.setAttribute("logId", id);
+			session.setAttribute("responsibility", responsibility);
+			
 			try {
 				resp.sendRedirect("boardList.do");
 			} catch (IOException e) {
