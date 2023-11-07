@@ -1,12 +1,11 @@
 package co.yedam.common;
 
-//import java.text.ParseException;
-//import java.text.SimpleDateFormat;
+import java.util.List;
 
-import co.yedam.board.service.BoardService;
-import co.yedam.board.service.BoardVO;
-import co.yedam.board.serviceImpl.BoardDAO;
-import co.yedam.board.serviceImpl.BoardServiceImpl;
+import org.apache.ibatis.session.SqlSession;
+
+import co.yedam.reply.mapper.ReplyMapper;
+import co.yedam.reply.service.ReplyVO;
 //import co.yedam.student.service.StudentService;
 //import co.yedam.student.service.StudentVO;
 //import co.yedam.student.serviceImpl.StudentServiceImpl;
@@ -37,24 +36,41 @@ public class MainExe {
 ////		}
 //		System.out.println("단건조회: " + svc.getStudent(vo.getStudentId()));
 //		svc.listStudent().forEach(student -> System.out.println(student));
-		BoardDAO dao = new BoardDAO();
-		BoardVO vo = new BoardVO();
-		vo.setTitle("newpost");
-		vo.setContent("practice");
-		vo.setWriter("user");
-
-		System.out.println(dao.selectList());
-
-		vo.setBoardNo(4);
-		vo.setTitle("오번째제목");
-		vo.setContent("오번째내용");
-		vo.setWriter("USER05");
-
-		System.out.println(dao.selectList());
-
-		dao.delete(4);
-
-		System.out.println(dao.selectList());
+//------------------------------------------------------
+		//		BoardDAO dao = new BoardDAO();
+//		BoardVO vo = new BoardVO();
+//		vo.setTitle("newpost");
+//		vo.setContent("practice");
+//		vo.setWriter("user");
+//
+//		System.out.println(dao.selectList());
+//
+//		vo.setBoardNo(4);
+//		vo.setTitle("오번째제목");
+//		vo.setContent("오번째내용");
+//		vo.setWriter("USER05");
+//
+//		System.out.println(dao.selectList());
+//
+//		dao.delete(4);
+//
+//		System.out.println(dao.selectList());
+//------------------------------------------------------
+		SqlSession session = DataSourceMybatis.getInstance().openSession(true);
+		ReplyMapper mapper = session.getMapper(ReplyMapper.class);
+		
+//		List<ReplyVO> list = mapper.replyList(1);
+//		list.forEach(vo -> System.out.println(vo));
+//		ReplyVO vo = mapper.selectReply(2);
+//		System.out.println(vo);
+//		ReplyVO vo = new ReplyVO();
+//		vo.setReplyNo(6);
+//		vo.setReply("댓글수정테스트");
+//		vo.setReplyer("user14");
+//		mapper.updateReply(vo);
+		mapper.deleteReply(6);
+		
+		
 
 	}// endmaim
 }// end
