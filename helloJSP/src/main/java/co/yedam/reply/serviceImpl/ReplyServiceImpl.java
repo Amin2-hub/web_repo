@@ -20,7 +20,7 @@ public class ReplyServiceImpl implements ReplyService{
 	}
 
 	@Override
-	public ReplyVO selectReply(int replyNo) {
+	public ReplyVO getReply(int replyNo) {
 		return mapper.selectReply(replyNo);
 	}
 
@@ -30,13 +30,13 @@ public class ReplyServiceImpl implements ReplyService{
 	}
 
 	@Override
-	public boolean updateReply(ReplyVO vo) {
+	public boolean editReply(ReplyVO vo) {
 		return false;
 	}
 
 	@Override
 	public boolean deleteReply(int replyNo) {
-		return false;
+		return mapper.deleteReply(replyNo);
 	}
 
 }

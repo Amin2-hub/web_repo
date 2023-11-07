@@ -3,7 +3,7 @@ package co.yedam.reply.mapper;
 import java.util.List;
 
 import co.yedam.reply.service.ReplyVO;
-// mapper : select insert update delete
+// mapper : select insert update delete  mapper.xml의 id와 매칭되야함
 public interface ReplyMapper {
 	public List<ReplyVO> replyList(int boardNo); //목록
 	public ReplyVO selectReply(int replyNo); //단건조회

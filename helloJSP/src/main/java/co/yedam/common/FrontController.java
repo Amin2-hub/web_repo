@@ -19,6 +19,7 @@ import co.yedam.board.web.ModifyFormControl;
 import co.yedam.board.web.RemoveBoardControl;
 import co.yedam.board.web.RemoveFormControl;
 import co.yedam.reply.web.AddReplyControl;
+import co.yedam.reply.web.DelReplyControl;
 import co.yedam.reply.web.ReplyListControl;
 //@WebServlet("/FirstServlet.do")
 public class FrontController extends HttpServlet{
@@ -54,6 +55,7 @@ public class FrontController extends HttpServlet{
 		//댓글목록.
 		map.put("/replyList.do", new ReplyListControl());
 		map.put("/addReply.do", new AddReplyControl());
+		map.put("/delReply.do", new DelReplyControl());
 	}
 	
 	@Override

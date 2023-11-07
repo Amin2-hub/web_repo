@@ -75,7 +75,7 @@
 
 	<ul id="list">
 		<li style="display:none;" id="template"><span>00</span>
-		<b>첫번째 글입니다.</b>
+		<b >첫번째 글입니다.</b>
 		<span>user01</span>
 		<span>2023-10-10</span>
 		<button>삭제</button>
@@ -92,7 +92,6 @@
 		//댓글목록
 		let bno = "<%=vo.getBoardNo() %>";
 		let writer = "<%=logId%>";
-		
 		
 		bno = document.querySelector('.boardNo').innerHTML;
 		fetch('replyList.do?bno='+bno)
@@ -140,6 +139,22 @@
 			temp.querySelector('b').innerHTML = reply.reply;
 			temp.querySelector('span:nth-of-type(2)').innerHTML = reply.replyer;
 			temp.querySelector('span:nth-of-type(3)').innerHTML = reply.replyDate;
+			
+			temp.querySelector('button').addEventListener('click', function(e){
+				console.log('button이벤트 활성화');
+				fetch('delReply.do?replyNo='+reply.replyNo)
+				.then(resolve => resolve.json())
+				.then(result => {
+					console.log(result.retCode);
+					if(result.retCode == 'OK'){
+						temp.remove();
+					}else{
+						alert("삭제실패");
+					}
+				})
+				.catch(err => console.log("에러 : "+ err));
+			
+			})
 			return temp;
 		}
 		
