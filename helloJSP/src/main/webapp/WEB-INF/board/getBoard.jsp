@@ -107,8 +107,14 @@
 		})
 		.catch(err => console.log(err));
 		
+		//등록버튼
 		document.querySelector("#addReply").addEventListener('click', function (e){
 			let reply = document.querySelector('#content').value;
+			if(!bno || writer=='null' || !reply){
+				alert("값을 확인하세요");
+				return;
+			}
+			
 			//ajax. bno/writer/reply =>전달
 			fetch('addReply.do', {
 				method: 'post',
