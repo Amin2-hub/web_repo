@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -14,30 +15,37 @@
         <link href="css/styles.css" rel="stylesheet" />
     </head>
     <body>
-    <%
-    	String logId = (String) session.getAttribute("logId");
-    	String re = (String) session.getAttribute("responsibility");
-    %>
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
             <div class="border-end bg-white" id="sidebar-wrapper">
-            	 <% if(logId == null){ %>
-                <div class="sidebar-heading border-bottom bg-light">Guest입니다.</div>
-                 <% } else { %>
-                <div class="sidebar-heading border-bottom bg-light">(<%=logId %>)님 환영합니다</div>
-                 <% } %>
+            	<c:choose>
+	            	<c:when test="${empty logId }">
+	    	            <div class="sidebar-heading border-bottom bg-light">Guest입니다.</div>
+	            	</c:when>
+	            	<c:otherwise>
+		                <div class="sidebar-heading border-bottom bg-light">${logId }님 환영합니다.  ${responsibility }</div>
+	            	</c:otherwise>
+            	</c:choose>
+            	
+            	
                 <div class="list-group list-group-flush">
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="boardList.do">게시글 목록</a>
-                    <% if(logId == null){ %>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="loginForm.do">로그인화면</a>
-                    <% } else { %>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="logout.do">로그아웃</a>
-                    <% } %>
+                    <c:choose>
+                    	<c:when test="${empty logId }">
+                    		<a class="list-group-item list-group-item-action list-group-item-light p-3" href="loginForm.do">로그인화면</a>
+                    	</c:when>
+                    	<c:otherwise>
+                    		<a class="list-group-item list-group-item-action list-group-item-light p-3" href="logout.do">로그아웃</a>
+                    	</c:otherwise>
+                    </c:choose>
+                   
+                   
                     <!-- 관리자 권한일경우 -->
                     
-                    <% if (re != null && re.equals("Admin")) { %>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="memberList.do">회원관리</a>
-                    <% } %>
+                    
+                    <c:if test="${!empty responsibility && responsibility == 'Admin' }">
+                    	<a class="list-group-item list-group-item-action list-group-item-light p-3" href="memberList.do">회원관리</a>
+                    </c:if>
                     
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Events</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>

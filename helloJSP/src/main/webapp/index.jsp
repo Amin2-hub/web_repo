@@ -2,17 +2,15 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <title>첫페이지입니다.(index.jsp)</title>
 </head>
 
 <body>
-    
     <%
-        response.sendRedirect("main.do");
+       // response.sendRedirect("main.do");
     %>
+    <jsp:forward page="main.do"></jsp:forward>
 </body>
-
 </html>

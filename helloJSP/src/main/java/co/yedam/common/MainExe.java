@@ -1,11 +1,11 @@
 package co.yedam.common;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
 import co.yedam.reply.mapper.ReplyMapper;
-import co.yedam.reply.service.ReplyVO;
 //import co.yedam.student.service.StudentService;
 //import co.yedam.student.service.StudentVO;
 //import co.yedam.student.serviceImpl.StudentServiceImpl;
@@ -58,8 +58,8 @@ public class MainExe {
 //------------------------------------------------------
 		SqlSession session = DataSourceMybatis.getInstance().openSession(true);
 		ReplyMapper mapper = session.getMapper(ReplyMapper.class);
-		
-//		List<ReplyVO> list = mapper.replyList(1);
+//		
+//		List<ReplyVO> list = mapper.replyList(1, 1);
 //		list.forEach(vo -> System.out.println(vo));
 //		ReplyVO vo = mapper.selectReply(2);
 //		System.out.println(vo);
@@ -68,7 +68,10 @@ public class MainExe {
 //		vo.setReply("댓글수정테스트");
 //		vo.setReplyer("user14");
 //		mapper.updateReply(vo);
-		mapper.deleteReply(6);
+//		mapper.deleteReply(6);
+		
+		List<Map<String, Object>> map = mapper.getReplyCountByWriter();
+		System.out.println(map);
 		
 		
 
